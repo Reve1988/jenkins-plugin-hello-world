@@ -1,8 +1,10 @@
 package io.jenkins.plugins.sample;
 
-import hudson.model.Action;
+import hudson.model.Run;
+import jenkins.model.RunAction2;
 
-public class HelloWorldAction implements Action {
+public class HelloWorldAction implements RunAction2 {
+	private transient Run run;
 	private String name;
 
 	public HelloWorldAction(String name) {
@@ -11,6 +13,20 @@ public class HelloWorldAction implements Action {
 
 	public String getName() {
 		return name;
+	}
+
+	public Run getRun() {
+		return run;
+	}
+
+	@Override
+	public void onAttached(Run<?, ?> run) {
+		this.run = run;
+	}
+
+	@Override
+	public void onLoad(Run<?, ?> run) {
+		this.run = run;
 	}
 
 	@Override
